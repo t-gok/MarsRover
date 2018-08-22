@@ -13,17 +13,14 @@ public class Rovers {
         roversList.add(rover);
     }
 
-    public void printRover(Integer index){
-        Rover rover = roversList.get(index);
-        rover.printPosition();
+    public void print() {
+        for (int i = 0; i < roversList.size(); i++) {
+            Rover rover = roversList.get(i);
+            rover.printPosition();
+        }
     }
 
-    public void updatePosition(Integer index, String moves, CoordinatePair plateauDimensionsPair){
-        Rover rover = roversList.get(index);
-        rover.updatePosition(moves, plateauDimensionsPair);
-    }
-
-    public Integer size(){
+    public int size() {
         return roversList.size();
     }
 }

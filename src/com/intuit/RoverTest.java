@@ -1,39 +1,62 @@
 package com.intuit;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RoverTest {
-    @Test void shouldCreateRoverAndPrintPosition(){
-        Rover rover = new Rover(new Position(0, 0, "N"));
+    @Test
+    public void shouldCreateRoverAndPrintPosition(){
+        Plateau plateau = new Plateau(5, 5);
+        Rover rover = new Rover(new Position(new CartestianCoordinate(0, 0), "N"), plateau);
         rover.printPosition();
     }
 
     @Test
-    public void shouldAppendToRovers(){
+    public void shouldCreateRoverAndAddToRovers(){
+        Plateau plateau = new Plateau(5, 5);
         Rovers rovers = new Rovers();
-        rovers.add(new Rover(new Position(0, 0, "N")));
-        assertEquals(new Integer(1), rovers.size());
+        rovers.add(new Rover(new Position(new CartestianCoordinate(0, 0), "N"), plateau));
+        assertEquals(1, rovers.size());
     }
 
     @Test
     public void shouldUpdateRoverPosition(){
-        Rover rover = new Rover(new Position(1, 2, "N"));
+        Plateau plateau = new Plateau(5, 5);
+        Rover rover = new Rover(new Position(new CartestianCoordinate(1, 2), "N"), plateau);
         rover.printPosition();
-        String moves = "LMLMLMLMM";
-        CoordinatePair plateauDimensionsPair = new CoordinatePair(5, 5);
-        rover.updatePosition(moves, plateauDimensionsPair);
+        String instructionsString = "LMLMLMLMM";
+        Instruction[] instructions;
+        instructions = new Instruction[instructionsString.length()];
+        for(int i=0; i<instructionsString.length(); i++){
+            instructions[i] = new Instruction(instructionsString.charAt(i));
+        }
+        rover.updatePosition(instructions);
+        rover.printPosition();
+        rover = new Rover(new Position(new CartestianCoordinate(3, 3), "E"), plateau);
+        rover.printPosition();
+        instructionsString = "MMRMMRMRRM";
+        instructions = new Instruction[instructionsString.length()];
+        for(int i=0; i<instructionsString.length(); i++){
+            instructions[i] = new Instruction(instructionsString.charAt(i));
+        }
+        rover.updatePosition(instructions);
         rover.printPosition();
     }
 
     @Test
     public void shouldFailToUpdateRoverPosition(){
-        Rover rover = new Rover(new Position(5, 4, "E"));
+        Plateau plateau = new Plateau(5, 5);
+        Rover rover = new Rover(new Position(new CartestianCoordinate(5, 4), "E"), plateau);
         rover.printPosition();
-        CoordinatePair plateauDimensionsPair = new CoordinatePair(5, 5);
-        String moves = "M";
-        rover.updatePosition(moves, plateauDimensionsPair);
+        String instructionsString = "M";
+        Instruction[] instructions;
+        instructions = new Instruction[instructionsString.length()];
+        for(int i=0; i<instructionsString.length(); i++){
+            instructions[i] = new Instruction(instructionsString.charAt(i));
+        }
+        rover.updatePosition(instructions);
         rover.printPosition();
     }
 
