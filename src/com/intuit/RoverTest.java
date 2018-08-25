@@ -9,7 +9,8 @@ class RoverTest {
     @Test
     public void shouldCreateRoverAndPrintPosition(){
         Plateau plateau = new Plateau(5, 5);
-        Rover rover = new Rover(new Position(new CartestianCoordinate(0, 0), "N"), plateau);
+        Direction direction = Direction.getDirection("N");
+        Rover rover = new Rover(new Position(new CartesianCoordinate(0, 0), direction), plateau);
         rover.printPosition();
     }
 
@@ -17,30 +18,24 @@ class RoverTest {
     public void shouldCreateRoverAndAddToRovers(){
         Plateau plateau = new Plateau(5, 5);
         Rovers rovers = new Rovers();
-        rovers.add(new Rover(new Position(new CartestianCoordinate(0, 0), "N"), plateau));
+        Direction direction = Direction.getDirection("N");
+        rovers.add(new Rover(new Position(new CartesianCoordinate(0, 0), direction), plateau));
         assertEquals(1, rovers.size());
     }
 
     @Test
     public void shouldUpdateRoverPosition(){
         Plateau plateau = new Plateau(5, 5);
-        Rover rover = new Rover(new Position(new CartestianCoordinate(1, 2), "N"), plateau);
+        Direction direction = Direction.getDirection("N");
+        Rover rover = new Rover(new Position(new CartesianCoordinate(1, 2), direction), plateau);
         rover.printPosition();
-        String instructionsString = "LMLMLMLMM";
-        Instruction[] instructions;
-        instructions = new Instruction[instructionsString.length()];
-        for(int i=0; i<instructionsString.length(); i++){
-            instructions[i] = new Instruction(instructionsString.charAt(i));
-        }
+        String instructions = "LMLMLMLMM";
         rover.updatePosition(instructions);
         rover.printPosition();
-        rover = new Rover(new Position(new CartestianCoordinate(3, 3), "E"), plateau);
+        direction = Direction.getDirection("E");
+        rover = new Rover(new Position(new CartesianCoordinate(3, 3), direction), plateau);
         rover.printPosition();
-        instructionsString = "MMRMMRMRRM";
-        instructions = new Instruction[instructionsString.length()];
-        for(int i=0; i<instructionsString.length(); i++){
-            instructions[i] = new Instruction(instructionsString.charAt(i));
-        }
+        instructions = "MMRMMRMRRM";
         rover.updatePosition(instructions);
         rover.printPosition();
     }
@@ -48,14 +43,10 @@ class RoverTest {
     @Test
     public void shouldFailToUpdateRoverPosition(){
         Plateau plateau = new Plateau(5, 5);
-        Rover rover = new Rover(new Position(new CartestianCoordinate(5, 4), "E"), plateau);
+        Direction direction = Direction.getDirection("E");
+        Rover rover = new Rover(new Position(new CartesianCoordinate(5, 4), direction), plateau);
         rover.printPosition();
-        String instructionsString = "M";
-        Instruction[] instructions;
-        instructions = new Instruction[instructionsString.length()];
-        for(int i=0; i<instructionsString.length(); i++){
-            instructions[i] = new Instruction(instructionsString.charAt(i));
-        }
+        String instructions = "M";
         rover.updatePosition(instructions);
         rover.printPosition();
     }

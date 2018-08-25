@@ -3,53 +3,100 @@ package com.intuit;
 import java.util.HashMap;
 
 public enum Direction {
-    NORTH() {
+    NORTH("N") {
         @Override
-        public Direction nextDirection(Instruction instruction) {
-            return instruction.isL() ? WEST : instruction.isR() ? EAST : instruction.isM() ? NORTH : null;
+        public Direction getDirectionForMoveForward() {
+            return NORTH;
         }
         @Override
-        public CartestianCoordinate nextPossibleCartesianCoordinate(CartestianCoordinate cartestianCoordinate, Instruction instruction) {
-            return instruction.isM() ? cartestianCoordinate.addY(1) : cartestianCoordinate;
-        }
-    },
-    EAST() {
-        @Override
-        public Direction nextDirection(Instruction instruction) {
-            return instruction.isL() ? NORTH : instruction.isR() ? SOUTH : instruction.isM() ? EAST : null;
+        public Direction getDirectionForRotateLeft() {
+            return WEST;
         }
         @Override
-        public CartestianCoordinate nextPossibleCartesianCoordinate(CartestianCoordinate cartestianCoordinate, Instruction instruction) {
-            return instruction.isM() ? cartestianCoordinate.addX(1) : cartestianCoordinate;
+        public Direction getDirectionForRotateRight() {
+            return EAST;
+        }
+        @Override
+        public CartesianCoordinate getCartesianCoordinateForMoveForward(CartesianCoordinate cartesianCoordinate) {
+            return cartesianCoordinate.add(0,1);
         }
     },
-    WEST() {
+    EAST("E") {
         @Override
-        public Direction nextDirection(Instruction instruction) {
-            return instruction.isL() ? SOUTH : instruction.isR() ? NORTH : instruction.isM() ? WEST : null;
+        public Direction getDirectionForMoveForward() {
+            return EAST;
         }
         @Override
-        public CartestianCoordinate nextPossibleCartesianCoordinate(CartestianCoordinate cartestianCoordinate, Instruction instruction) {
-            return instruction.isM() ? cartestianCoordinate.addX(-1) : cartestianCoordinate;
+        public Direction getDirectionForRotateLeft() {
+            return NORTH;
+        }
+        @Override
+        public Direction getDirectionForRotateRight() {
+            return SOUTH;
+        }
+        @Override
+        public CartesianCoordinate getCartesianCoordinateForMoveForward(CartesianCoordinate cartesianCoordinate) {
+            return cartesianCoordinate.add(1,0);
         }
     },
-    SOUTH() {
+    WEST("W") {
         @Override
-        public Direction nextDirection(Instruction instruction) {
-            return instruction.isL() ? EAST : instruction.isR() ? WEST : instruction.isM() ? SOUTH : null;
+        public Direction getDirectionForMoveForward() {
+            return WEST;
         }
         @Override
-        public CartestianCoordinate nextPossibleCartesianCoordinate(CartestianCoordinate cartestianCoordinate, Instruction instruction) {
-            return instruction.isM() ? cartestianCoordinate.addY(-1) : cartestianCoordinate;
+        public Direction getDirectionForRotateLeft() {
+            return SOUTH;
+        }
+        @Override
+        public Direction getDirectionForRotateRight() {
+            return NORTH;
+        }
+        @Override
+        public CartesianCoordinate getCartesianCoordinateForMoveForward(CartesianCoordinate cartesianCoordinate) {
+            return cartesianCoordinate.add(-1,0);
+        }
+    },
+    SOUTH("S") {
+        @Override
+        public Direction getDirectionForMoveForward() {
+            return SOUTH;
+        }
+        @Override
+        public Direction getDirectionForRotateLeft() {
+            return EAST;
+        }
+        @Override
+        public Direction getDirectionForRotateRight() {
+            return WEST;
+        }
+        @Override
+        public CartesianCoordinate getCartesianCoordinateForMoveForward(CartesianCoordinate cartesianCoordinate) {
+            return cartesianCoordinate.add(0,-1);
         }
     };
-    public abstract Direction nextDirection(Instruction instruction);
-    public abstract CartestianCoordinate nextPossibleCartesianCoordinate(CartestianCoordinate cartestianCoordinate, Instruction instruction);
+    public abstract Direction getDirectionForMoveForward();
+    
+    public abstract Direction getDirectionForRotateLeft();
+    
+    public abstract Direction getDirectionForRotateRight();
 
-    public static HashMap<String, Direction> directionCodeToNameMap = new HashMap<String, Direction>(){{
-        put("N", Direction.NORTH);
-        put("E", Direction.EAST);
-        put("W", Direction.WEST);
-        put("S", Direction.SOUTH);
-    }};
+    public abstract CartesianCoordinate getCartesianCoordinateForMoveForward(CartesianCoordinate cartestianCoordinate);
+
+    private String directionCode;
+
+    private Direction(String directionCode){
+        this.directionCode = directionCode;
+    }
+
+    public static Direction getDirection(String directionCode){
+        for(Direction direction: Direction.values()){
+            if(direction.directionCode.equals(directionCode)) return direction;
+        }
+        return null;
+    }
+
+    public String getDirectionString(){
+        return this.directionCode;
+    }
 }

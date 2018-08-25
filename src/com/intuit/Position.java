@@ -5,24 +5,23 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 public class Position {
-    private CartestianCoordinate cartestianCoordinate;
+    private CartesianCoordinate cartesianCoordinate;
     private Direction direction;
 
-    public Position(CartestianCoordinate cartestianCoordinate, String directionCode){
-       this.cartestianCoordinate = cartestianCoordinate;
-       this.direction = Direction.directionCodeToNameMap.get(directionCode);
+    public Position(CartesianCoordinate cartestianCoordinate, Direction direction){
+       this.cartesianCoordinate = cartestianCoordinate;
+       this.direction = direction;
     }
 
-    public void updateCartesianCoordinate(Instruction instruction, Plateau plateau){
-        CartestianCoordinate possiblyNextCartesianCoordinate = direction.nextPossibleCartesianCoordinate(cartestianCoordinate, instruction);
-        cartestianCoordinate = plateau.isOutOfBounds(possiblyNextCartesianCoordinate) ? cartestianCoordinate : possiblyNextCartesianCoordinate;
+    public void updateCartesianCoordinate(Action action, Plateau plateau){
+        this.cartesianCoordinate = action.getCartesianCoordinate(cartesianCoordinate, direction, plateau);
     }
 
-    public void updateDirection(Instruction instruction) {
-        direction = direction.nextDirection(instruction);
+    public void updateDirection(Action action) {
+        this.direction = action.getDirection(direction);
     }
 
     public void printPosition() {
-        System.out.println(cartestianCoordinate.getCartesianCoordinateStringRepresentation() + "->" + direction);
+        System.out.println(String.format("%s->%s", cartesianCoordinate.getCartesianCoordinateString(), direction.getDirectionString()));
     }
 }

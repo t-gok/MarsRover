@@ -9,15 +9,17 @@ public class Rover {
         this.plateau = plateau;
     }
 
-    public void updatePosition(Instruction[] instructions){
-        for(Instruction instruction: instructions){
-            updatePosition(instruction);
+    public void updatePosition(String instructions){
+        for(int i=0; i<instructions.length(); i++){
+            char instruction = instructions.charAt(i);
+            Action action = Action.getAction(instruction);
+            updatePosition(action);
         }
     }
 
-    private void updatePosition(Instruction instruction) {
-        position.updateCartesianCoordinate(instruction, plateau);
-        position.updateDirection(instruction);
+    private void updatePosition(Action action) {
+        position.updateCartesianCoordinate(action, plateau);
+        position.updateDirection(action);
     }
 
     public void printPosition(){

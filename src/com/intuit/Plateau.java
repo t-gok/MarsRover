@@ -1,13 +1,14 @@
 package com.intuit;
 
 public class Plateau {
-    private CartestianCoordinate cartestianCoordinate;
+    int length, breadth;
 
-    public Plateau(int X, int Y){
-        cartestianCoordinate = new CartestianCoordinate(X,Y);
+    public Plateau(int x, int y){
+        length = x;
+        breadth = y;
     }
 
-    public boolean isOutOfBounds(CartestianCoordinate nextCartesianCoordinate){
-        return !((cartestianCoordinate.getX() >= nextCartesianCoordinate.getX()) && (cartestianCoordinate.getY() >= nextCartesianCoordinate.getY()) && (nextCartesianCoordinate.getX()) >= 0 && (nextCartesianCoordinate.getY() >= 0));
+    public boolean isOutOfBounds(CartesianCoordinate cartesianCoordinate){
+        return !cartesianCoordinate.isWithinTheRectangleFormedByPlateau(length, breadth);
     }
 }
